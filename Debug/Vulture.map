@@ -1612,9 +1612,13 @@ Discarded input sections
  .debug_frame   0x00000000      0x35c RTE\RTOS\timers.o
  .ARM.attributes
                 0x00000000       0x39 RTE\RTOS\timers.o
- .text          0x00000000        0x0 main.o
- .data          0x00000000        0x0 main.o
- .bss           0x00000000        0x0 main.o
+ .text          0x00000000        0x0 src\main.o
+ .data          0x00000000        0x0 src\main.o
+ .bss           0x00000000        0x0 src\main.o
+ .text._Z18SystemClock_Configv
+                0x00000000       0xe8 src\main.o
+ .text._ZL13Error_Handlerv
+                0x00000000        0x8 src\main.o
  .text          0x00000000       0x74 c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\crt0.o
  .data          0x00000000        0x0 c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\crt0.o
  .bss           0x00000000        0x0 c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\crt0.o
@@ -1718,7 +1722,7 @@ LOAD RTE\RTOS\port.o
 LOAD RTE\RTOS\queue.o
 LOAD RTE\RTOS\tasks.o
 LOAD RTE\RTOS\timers.o
-LOAD main.o
+LOAD src\main.o
 LOAD c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\crt0.o
 LOAD C:/Users/emon1/Atollic/TrueSTUDIO/CMSIS_Packs/ARM/CMSIS/5.0.1/CMSIS/Lib/GCC\libarm_cortexM4lf_math.a
 START GROUP
@@ -1894,7 +1898,7 @@ LOAD c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib
                 0x080005d4                vTaskSwitchContext
  .text.prvResetNextTaskUnblockTime
                 0x080006bc       0x4c RTE\RTOS\tasks.o
- .text.main     0x08000708        0x8 main.o
+ .text.main     0x08000708        0x8 src\main.o
                 0x08000708                main
  .text.__libc_init_array
                 0x08000710       0x4c c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\libc_nano.a(lib_a-init.o)
@@ -2047,14 +2051,14 @@ LOAD c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib
  .ARM.attributes
                 0x00000194       0x39 RTE\RTOS\tasks.o
  .ARM.attributes
-                0x000001cd       0x39 main.o
+                0x000001cd       0x39 src\main.o
  .ARM.attributes
                 0x00000206       0x34 c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\libc_nano.a(lib_a-init.o)
  .ARM.attributes
                 0x0000023a       0x22 c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/armv7e-m/fpu/crtn.o
 OUTPUT(Vulture.elf elf32-littlearm)
 
-.debug_info     0x00000000     0x60ca
+.debug_info     0x00000000     0x6586
  .debug_info    0x00000000     0x38a7 RTE\CMSIS\cmsis_os2.o
  .debug_info    0x000038a7       0x9a RTE\Device\STM32F446RETx\startup_stm32f446xx.o
  .debug_info    0x00003941      0x51d RTE\Device\STM32F446RETx\system_stm32f4xx.o
@@ -2062,9 +2066,9 @@ OUTPUT(Vulture.elf elf32-littlearm)
  .debug_info    0x00003f81      0x2cf RTE\RTOS\list.o
  .debug_info    0x00004250      0x31d RTE\RTOS\port.o
  .debug_info    0x0000456d     0x1b1b RTE\RTOS\tasks.o
- .debug_info    0x00006088       0x42 main.o
+ .debug_info    0x00006088      0x4fe src\main.o
 
-.debug_abbrev   0x00000000      0xabc
+.debug_abbrev   0x00000000      0xbdd
  .debug_abbrev  0x00000000      0x36f RTE\CMSIS\cmsis_os2.o
  .debug_abbrev  0x0000036f       0x12 RTE\Device\STM32F446RETx\startup_stm32f446xx.o
  .debug_abbrev  0x00000381      0x101 RTE\Device\STM32F446RETx\system_stm32f4xx.o
@@ -2072,9 +2076,9 @@ OUTPUT(Vulture.elf elf32-littlearm)
  .debug_abbrev  0x00000528       0xd8 RTE\RTOS\list.o
  .debug_abbrev  0x00000600      0x1c5 RTE\RTOS\port.o
  .debug_abbrev  0x000007c5      0x2be RTE\RTOS\tasks.o
- .debug_abbrev  0x00000a83       0x39 main.o
+ .debug_abbrev  0x00000a83      0x15a src\main.o
 
-.debug_aranges  0x00000000      0x558
+.debug_aranges  0x00000000      0x568
  .debug_aranges
                 0x00000000      0x228 RTE\CMSIS\cmsis_os2.o
  .debug_aranges
@@ -2090,9 +2094,9 @@ OUTPUT(Vulture.elf elf32-littlearm)
  .debug_aranges
                 0x00000350      0x1e8 RTE\RTOS\tasks.o
  .debug_aranges
-                0x00000538       0x20 main.o
+                0x00000538       0x30 src\main.o
 
-.debug_ranges   0x00000000      0x4e0
+.debug_ranges   0x00000000      0x4f0
  .debug_ranges  0x00000000      0x218 RTE\CMSIS\cmsis_os2.o
  .debug_ranges  0x00000218       0x20 RTE\Device\STM32F446RETx\startup_stm32f446xx.o
  .debug_ranges  0x00000238       0x18 RTE\Device\STM32F446RETx\system_stm32f4xx.o
@@ -2100,9 +2104,9 @@ OUTPUT(Vulture.elf elf32-littlearm)
  .debug_ranges  0x00000260       0x30 RTE\RTOS\list.o
  .debug_ranges  0x00000290       0x68 RTE\RTOS\port.o
  .debug_ranges  0x000002f8      0x1d8 RTE\RTOS\tasks.o
- .debug_ranges  0x000004d0       0x10 main.o
+ .debug_ranges  0x000004d0       0x20 src\main.o
 
-.debug_line     0x00000000     0x355b
+.debug_line     0x00000000     0x3813
  .debug_line    0x00000000     0x1c2a RTE\CMSIS\cmsis_os2.o
  .debug_line    0x00001c2a       0x90 RTE\Device\STM32F446RETx\startup_stm32f446xx.o
  .debug_line    0x00001cba      0x24c RTE\Device\STM32F446RETx\system_stm32f4xx.o
@@ -2110,23 +2114,23 @@ OUTPUT(Vulture.elf elf32-littlearm)
  .debug_line    0x00002096      0x2f0 RTE\RTOS\list.o
  .debug_line    0x00002386      0x442 RTE\RTOS\port.o
  .debug_line    0x000027c8      0xd53 RTE\RTOS\tasks.o
- .debug_line    0x0000351b       0x40 main.o
+ .debug_line    0x0000351b      0x2f8 src\main.o
 
-.debug_str      0x00000000     0x2440
+.debug_str      0x00000000     0x26ed
  .debug_str     0x00000000     0x13d0 RTE\CMSIS\cmsis_os2.o
                                0x149f (size before relaxing)
- .debug_str     0x000013d0      0x1f7 RTE\Device\STM32F446RETx\system_stm32f4xx.o
+ .debug_str     0x000013d0      0x1eb RTE\Device\STM32F446RETx\system_stm32f4xx.o
                                 0x3ea (size before relaxing)
- .debug_str     0x000015c7       0x33 RTE\RTOS\FreeRTOS_Tick_Config.o
+ .debug_str     0x000015bb       0x33 RTE\RTOS\FreeRTOS_Tick_Config.o
                                 0x22d (size before relaxing)
- .debug_str     0x000015fa      0x143 RTE\RTOS\list.o
+ .debug_str     0x000015ee      0x143 RTE\RTOS\list.o
                                 0x358 (size before relaxing)
- .debug_str     0x0000173d      0x164 RTE\RTOS\port.o
+ .debug_str     0x00001731      0x164 RTE\RTOS\port.o
                                 0x3cc (size before relaxing)
- .debug_str     0x000018a1      0xb90 RTE\RTOS\tasks.o
+ .debug_str     0x00001895      0xb90 RTE\RTOS\tasks.o
                                0x1132 (size before relaxing)
- .debug_str     0x00002431        0xf main.o
-                                0x11b (size before relaxing)
+ .debug_str     0x00002425      0x2c8 src\main.o
+                                0x56e (size before relaxing)
 
 .comment        0x00000000       0x7e
  .comment       0x00000000       0x7e RTE\CMSIS\cmsis_os2.o
@@ -2136,17 +2140,17 @@ OUTPUT(Vulture.elf elf32-littlearm)
  .comment       0x0000007e       0x7f RTE\RTOS\list.o
  .comment       0x0000007e       0x7f RTE\RTOS\port.o
  .comment       0x0000007e       0x7f RTE\RTOS\tasks.o
- .comment       0x0000007e       0x7f main.o
+ .comment       0x0000007e       0x7f src\main.o
 
-.debug_frame    0x00000000     0x1500
+.debug_frame    0x00000000     0x153c
  .debug_frame   0x00000000      0x98c RTE\CMSIS\cmsis_os2.o
  .debug_frame   0x0000098c       0x58 RTE\Device\STM32F446RETx\system_stm32f4xx.o
  .debug_frame   0x000009e4       0x2c RTE\RTOS\FreeRTOS_Tick_Config.o
  .debug_frame   0x00000a10       0xd8 RTE\RTOS\list.o
  .debug_frame   0x00000ae8      0x164 RTE\RTOS\port.o
  .debug_frame   0x00000c4c      0x860 RTE\RTOS\tasks.o
- .debug_frame   0x000014ac       0x28 main.o
- .debug_frame   0x000014d4       0x2c c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\libc_nano.a(lib_a-init.o)
+ .debug_frame   0x000014ac       0x64 src\main.o
+ .debug_frame   0x00001510       0x2c c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\libc_nano.a(lib_a-init.o)
 
 Cross Reference Table
 
@@ -2411,6 +2415,7 @@ HAL_PWREx_DisableOverDrive                        RTE\Device\STM32F446RETx\stm32
 HAL_PWREx_EnableBkUpReg                           RTE\Device\STM32F446RETx\stm32f4xx_hal_pwr_ex.o
 HAL_PWREx_EnableFlashPowerDown                    RTE\Device\STM32F446RETx\stm32f4xx_hal_pwr_ex.o
 HAL_PWREx_EnableOverDrive                         RTE\Device\STM32F446RETx\stm32f4xx_hal_pwr_ex.o
+                                                  src\main.o
 HAL_PWREx_EnterUnderDriveSTOPMode                 RTE\Device\STM32F446RETx\stm32f4xx_hal_pwr_ex.o
 HAL_PWREx_GetVoltageRange                         RTE\Device\STM32F446RETx\stm32f4xx_hal_pwr_ex.o
 HAL_PWR_ConfigPVD                                 RTE\Device\STM32F446RETx\stm32f4xx_hal_pwr.o
@@ -2436,6 +2441,7 @@ HAL_RCCEx_PeriphCLKConfig                         RTE\Device\STM32F446RETx\stm32
 HAL_RCCEx_SelectLSEMode                           RTE\Device\STM32F446RETx\stm32f4xx_hal_rcc_ex.o
 HAL_RCC_CSSCallback                               RTE\Device\STM32F446RETx\stm32f4xx_hal_rcc.o
 HAL_RCC_ClockConfig                               RTE\Device\STM32F446RETx\stm32f4xx_hal_rcc.o
+                                                  src\main.o
 HAL_RCC_DeInit                                    RTE\Device\STM32F446RETx\stm32f4xx_hal_rcc_ex.o
                                                   RTE\Device\STM32F446RETx\stm32f4xx_hal_rcc.o
 HAL_RCC_DisableCSS                                RTE\Device\STM32F446RETx\stm32f4xx_hal_rcc.o
@@ -2457,6 +2463,7 @@ HAL_RCC_MCOConfig                                 RTE\Device\STM32F446RETx\stm32
 HAL_RCC_NMI_IRQHandler                            RTE\Device\STM32F446RETx\stm32f4xx_hal_rcc.o
 HAL_RCC_OscConfig                                 RTE\Device\STM32F446RETx\stm32f4xx_hal_rcc_ex.o
                                                   RTE\Device\STM32F446RETx\stm32f4xx_hal_rcc.o
+                                                  src\main.o
 HAL_ResumeTick                                    RTE\Device\STM32F446RETx\stm32f4xx_hal.o
 HAL_SYSTICK_CLKSourceConfig                       RTE\Device\STM32F446RETx\stm32f4xx_hal_cortex.o
 HAL_SYSTICK_Callback                              RTE\Device\STM32F446RETx\stm32f4xx_hal_cortex.o
@@ -2557,6 +2564,7 @@ SVC_Handler                                       RTE\RTOS\port.o
                                                   RTE\Device\STM32F446RETx\startup_stm32f446xx.o
 SysTick_Handler                                   RTE\RTOS\FreeRTOS_Tick_Config.o
                                                   RTE\Device\STM32F446RETx\startup_stm32f446xx.o
+SystemClock_Config()                              src\main.o
 SystemCoreClock                                   RTE\Device\STM32F446RETx\system_stm32f4xx.o
                                                   RTE\RTOS\port.o
                                                   RTE\Device\STM32F446RETx\stm32f4xx_hal_rcc_ex.o
@@ -2634,7 +2642,7 @@ exit                                              c:/program files (x86)/atollic
                                                   c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\crt0.o
 g_pfnVectors                                      RTE\Device\STM32F446RETx\startup_stm32f446xx.o
 hardware_init_hook                                c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\crt0.o
-main                                              main.o
+main                                              src\main.o
                                                   c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\crt0.o
                                                   RTE\Device\STM32F446RETx\startup_stm32f446xx.o
 memcpy                                            c:/program files (x86)/atollic/truestudio for arm 7.1.2/armtools/bin/../lib/gcc/arm-atollic-eabi/5.3.1/../../../../arm-atollic-eabi/lib/armv7e-m/fpu\libc_nano.a(lib_a-memcpy-stub.o)

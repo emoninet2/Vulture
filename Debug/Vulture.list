@@ -21,21 +21,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   8 .ARM.attributes 00000030  00000000  00000000  0001077c  2**0
                   CONTENTS, READONLY
-  9 .debug_info   000060ca  00000000  00000000  000107ac  2**0
+  9 .debug_info   00006586  00000000  00000000  000107ac  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_abbrev 00000abc  00000000  00000000  00016876  2**0
+ 10 .debug_abbrev 00000bdd  00000000  00000000  00016d32  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_aranges 00000558  00000000  00000000  00017338  2**3
+ 11 .debug_aranges 00000568  00000000  00000000  00017910  2**3
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000004e0  00000000  00000000  00017890  2**3
+ 12 .debug_ranges 000004f0  00000000  00000000  00017e78  2**3
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_line   0000355b  00000000  00000000  00017d70  2**0
+ 13 .debug_line   00003813  00000000  00000000  00018368  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_str    00002440  00000000  00000000  0001b2cb  2**0
+ 14 .debug_str    000026ed  00000000  00000000  0001bb7b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .comment      0000007e  00000000  00000000  0001d70b  2**0
+ 15 .comment      0000007e  00000000  00000000  0001e268  2**0
                   CONTENTS, READONLY
- 16 .debug_frame  00001500  00000000  00000000  0001d78c  2**2
+ 16 .debug_frame  0000153c  00000000  00000000  0001e2e8  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1081,20 +1081,20 @@ TCB_t *pxTCB;
  8000704:	2000049c 	.word	0x2000049c
 
 08000708 <main>:
-  #include "cmsis_os.h"                   // CMSIS RTOS header file
-#endif
+void SystemClock_Config(void);
+static void Error_Handler(void);
 
 /* main function */
 int main(void)
 {
  8000708:	b480      	push	{r7}
  800070a:	af00      	add	r7, sp, #0
+  // example: tid_name = osThreadCreate (osThread(name), NULL);
+  osKernelStart ();                     // start thread execution 
+#endif
 
   /* Infinite loop */
   while (1)
-  {
-   /* Add application code here */
-  }
  800070c:	e7fe      	b.n	800070c <main+0x4>
  800070e:	bf00      	nop
 
