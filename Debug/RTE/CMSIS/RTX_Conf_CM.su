@@ -1,0 +1,2 @@
+RTX_Conf_CM.c:225:6:os_idle_demon	4	static
+RTX_Conf_CM.c:281:6:os_error	16	static

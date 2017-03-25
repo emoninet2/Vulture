@@ -84,7 +84,7 @@ int _write(int32_t file, uint8_t *ptr, int32_t len)
 		ITM_SendChar(*ptr++);
 	}
 	errno = ENOSYS;
-	return -1;
+	return len;
 }
 
 void * _sbrk(int32_t incr)

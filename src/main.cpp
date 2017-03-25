@@ -47,15 +47,113 @@ void SystemClock_Config(void);
 static void Error_Handler(void);
 
 
-NRF24L01p Radio;
+NRF24L01p *Radio;
+static GPIO_InitTypeDef  GPIO_InitStruct;
+
+NRF24L01p::RadioConfig_t RadioConfig;
+NRF24L01p::RxPipeConfig_t RxPipeConfig[6];
+
+void RadioReset(){
+
+    RadioConfig.DataReadyInterruptEnabled = 0;
+    RadioConfig.DataSentInterruptFlagEnabled = 0;
+    RadioConfig.MaxRetryInterruptFlagEnabled = 0;
+    RadioConfig.Crc = NRF24L01p::CONFIG_CRC_16BIT;
+    RadioConfig.AutoReTransmissionCount = 15;
+    RadioConfig.AutoReTransmitDelayX250us = 15;
+    RadioConfig.frequencyOffset = 2;
+    RadioConfig.datarate = NRF24L01p::RF_SETUP_RF_DR_2MBPS;
+    RadioConfig.RfPower = NRF24L01p::RF_SETUP_RF_PWR_0DBM;
+    RadioConfig.PllLock = 0;
+    RadioConfig.ContWaveEnabled = 0;
+    RadioConfig.FeatureDynamicPayloadEnabled = 1;
+    RadioConfig.FeaturePayloadWithAckEnabled = 1;
+    RadioConfig.FeatureDynamicPayloadWithNoAckEnabled = 1;
+
+    RxPipeConfig[0].address = 0xAABBCCDDEE;
+    RxPipeConfig[1].address = 0x6565656501;
+    RxPipeConfig[2].address = 0x6565656502;
+    RxPipeConfig[3].address = 0x6565656503;
+    RxPipeConfig[4].address = 0x6565656509;
+    RxPipeConfig[5].address = 0x6565656505;
+
+    int i;
+    for(i=0;i<6;i++){
+        RxPipeConfig[i].PipeEnabled = 1;
+        RxPipeConfig[i].autoAckEnabled = 1;
+        RxPipeConfig[i].dynamicPayloadEnabled = 1;
+    }
+
+
+    Radio->ResetConfigValues(&RadioConfig, RxPipeConfig);
+}
+
+
+
+
+
+void thread1(void * ptr)
+{
+	/* -1- Enable GPIO Clock (to be able to program the configuration registers) */
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+
+	/* -2- Configure IO in output push-pull mode to drive external LEDs */
+	GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull  = GPIO_PULLUP;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+
+	GPIO_InitStruct.Pin = GPIO_PIN_5;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+	NRF24L01p NrfRadio;
+	Radio = &NrfRadio;
+
+	RadioReset();
+
+	printf("DYNPD : %x\r\n", Radio->read_register(0x1c));
+	printf("FEATURE : %x\r\n", Radio->read_register(0x1d));
+	printf("FIFO : %x\r\n", Radio->read_register(0x17));
+	printf("RF_SETUP : %x\r\n", Radio->read_register(0x06));
+
+	char myMesg[32];
+	NRF24L01p::Payload_t payload;
+
+	payload.UseAck = 1;
+
+
+	payload.address = 0x11223344EE;
+	payload.data = (uint8_t*)myMesg;
+	payload.length = strlen(myMesg);
+	payload.retransmitCount = 15;
+
+	sprintf((char*) payload.data, "fan 0" );
+	payload.length = strlen((char*)payload.data);
+	Radio->TransmitPayload(&payload);
+
+
+
+
+	  while (1)
+	  {
+			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+			vTaskDelay(1000);
+			printf("hello world\r\n");
+			//ITM_SendChar('E');
+			//ITM_SendChar('m');
+			//ITM_SendChar('o');
+			//ITM_SendChar('n');
+			//ITM_SendChar('\n');
+
+
+
+	  }
+}
+
 
 /* main function */
 int main(void)
 {
 
-	HAL_Init();
-	/* Configure the system clock to 100 MHz */
-	SystemClock_Config();
 
 
 #ifdef RTE_CMSIS_RTOS                   // when using CMSIS RTOS
@@ -63,14 +161,16 @@ int main(void)
 #endif
 
   /* Initialize device HAL here */
-  
+
 #ifdef RTE_CMSIS_RTOS                   // when using CMSIS RTOS
   // create 'thread' functions that start executing,
   // example: tid_name = osThreadCreate (osThread(name), NULL);
-  osKernelStart ();                     // start thread execution 
+  osKernelStart ();                     // start thread execution
 #endif
 
+  xTaskCreate(thread1,( const char * ) "t_gpio",configMINIMAL_STACK_SIZE*2,NULL,tskIDLE_PRIORITY+1 ,NULL );
 
+  vTaskStartScheduler();
   /* Infinite loop */
   while (1)
   {

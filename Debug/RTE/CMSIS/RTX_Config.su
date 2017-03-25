@@ -1,0 +1,2 @@
+RTX_Config.c:32:25:osRtxIdleThread	16	static
+RTX_Config.c:39:17:osRtxErrorNotify	16	static

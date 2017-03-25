@@ -138,8 +138,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="components/NRF24L01p/Examples/TxRx.cpp|components/NRF24L01p/Examples/PingPong.cpp|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="RTE/CMSIS/RTX_Config.h|RTE/CMSIS/RTX_Config.c|RTE/CMSIS/RTX_Conf_CM.c|components/NRF24L01p/Examples/TxRx.cpp|components/NRF24L01p/Examples/PingPong.cpp|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
