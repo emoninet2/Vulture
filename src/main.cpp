@@ -40,12 +40,23 @@
 #include "semphr.h"   /* Semaphore related API prototypes. */
 
 
+
+#include "../components/components.h"
+
 void SystemClock_Config(void);
 static void Error_Handler(void);
+
+
+NRF24L01p Radio;
 
 /* main function */
 int main(void)
 {
+
+	HAL_Init();
+	/* Configure the system clock to 100 MHz */
+	SystemClock_Config();
+
 
 #ifdef RTE_CMSIS_RTOS                   // when using CMSIS RTOS
   osKernelInitialize ();                // initialize CMSIS-RTOS
@@ -59,10 +70,13 @@ int main(void)
   osKernelStart ();                     // start thread execution 
 #endif
 
+
   /* Infinite loop */
   while (1)
   {
    /* Add application code here */
+	  //HAL_Delay(1000);
+	  printf("hello world\r\n");
   }
 
 }

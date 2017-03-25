@@ -162,6 +162,11 @@
 			<locationURI>$%7Bcmsis_pack_root%7D/Keil/STM32F4xx_DFP/2.11.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c</locationURI>
 		</link>
 		<link>
+			<name>RTE/Device/STM32F446RETx/stm32f4xx_hal_spi.c</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/Keil/STM32F4xx_DFP/2.11.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c</locationURI>
+		</link>
+		<link>
 			<name>RTE/Device/STM32F446RETx/stm32f4xx_hal_uart.c</name>
 			<type>1</type>
 			<locationURI>$%7Bcmsis_pack_root%7D/Keil/STM32F4xx_DFP/2.11.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c</locationURI>

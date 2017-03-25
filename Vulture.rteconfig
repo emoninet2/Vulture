@@ -81,6 +81,10 @@
 <file category="source" deviceDependent="1" name="Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c"/>
 <file category="source" deviceDependent="1" name="Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c"/>
 </component>
+<component Cclass="Device" Cgroup="STM32Cube HAL" Csub="SPI" Cvendor="Keil" Cversion="1.6.0" deviceDependent="1">
+<package name="STM32F4xx_DFP" url="http://www.keil.com/pack" vendor="Keil" version="2.11.0"/>
+<file category="source" deviceDependent="1" name="Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c"/>
+</component>
 <component Cclass="Device" Cgroup="STM32Cube HAL" Csub="UART" Cvendor="Keil" Cversion="1.6.0" deviceDependent="1">
 <package name="STM32F4xx_DFP" url="http://www.keil.com/pack" vendor="Keil" version="2.11.0"/>
 <file category="source" deviceDependent="1" name="Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c"/>
