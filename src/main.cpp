@@ -46,7 +46,7 @@
 void SystemClock_Config(void);
 static void Error_Handler(void);
 
-
+LCD03 lcd(LCD03::LCD03_SERIAL,LCD03::LCD03_20_4,LCD03::LCD03_I2C_ADDRESS_0xc8);
 NRF24L01p *Radio;
 static GPIO_InitTypeDef  GPIO_InitStruct;
 
@@ -92,7 +92,7 @@ void RadioReset(){
 
 
 
-void thread1(void * ptr)
+void nrf24l01p_thread(void * ptr)
 {
 	/* -1- Enable GPIO Clock (to be able to program the configuration registers) */
 	__HAL_RCC_GPIOA_CLK_ENABLE();
@@ -126,26 +126,20 @@ void thread1(void * ptr)
 	payload.length = strlen(myMesg);
 	payload.retransmitCount = 15;
 
-	sprintf((char*) payload.data, "fan 0" );
+	sprintf((char*) payload.data, "light 1 0" );
 	payload.length = strlen((char*)payload.data);
 	Radio->TransmitPayload(&payload);
+	lcd.portSerialInit();
 
 
-
-
+	lcd.clear_screen();
 	  while (1)
 	  {
 			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 			vTaskDelay(1000);
 			printf("hello world\r\n");
-			//ITM_SendChar('E');
-			//ITM_SendChar('m');
-			//ITM_SendChar('o');
-			//ITM_SendChar('n');
-			//ITM_SendChar('\n');
-
-
-
+			//lcd.send_data('O');
+			//lcd.portSerialTransmit('J');
 	  }
 }
 
@@ -168,7 +162,7 @@ int main(void)
   osKernelStart ();                     // start thread execution
 #endif
 
-  xTaskCreate(thread1,( const char * ) "t_gpio",configMINIMAL_STACK_SIZE*2,NULL,tskIDLE_PRIORITY+1 ,NULL );
+  xTaskCreate(nrf24l01p_thread,( const char * ) "t_gpio",configMINIMAL_STACK_SIZE*2,NULL,tskIDLE_PRIORITY+1 ,NULL );
 
   vTaskStartScheduler();
   /* Infinite loop */

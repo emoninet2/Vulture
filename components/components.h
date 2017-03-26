@@ -9,7 +9,7 @@
 #define COMPONENTS_COMPONENTS_H_
 
 #include "NRF24L01p/NRF24L01p.h"
-
+#include "LCD03/LCD03.h"
 
 
 #endif /* COMPONENTS_COMPONENTS_H_ */
