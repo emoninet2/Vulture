@@ -35,7 +35,7 @@ void LoRaHAL::antSwSet(bool txrx){
 	}
 }
 
-void LoRaHAL::reset(){
+void LoRaHAL::Reset(){
 	GPIO_Init(PIN_RESET);
 	GPIO_SetValue(PIN_RESET,1);
 	delayMs(1);

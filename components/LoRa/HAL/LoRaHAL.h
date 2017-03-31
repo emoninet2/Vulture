@@ -21,9 +21,7 @@ public:
 	void antSwInit();
 	void antSwDeInit();
 	void antSwSet(bool txrx);
-
-	void reset();
-
+	void Reset();
     void Write(uint8_t addr, uint8_t data);
     uint8_t Read(uint8_t addr);
     void WriteBuffer( uint8_t addr, uint8_t *buffer, uint8_t size );

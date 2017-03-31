@@ -9,10 +9,9 @@
 
 SX1272::SX1272() {
 	// TODO Auto-generated constructor stub
-
+	settings.Modem = MODEM_FSK;
 }
 
 SX1272::~SX1272() {
 	// TODO Auto-generated destructor stub
 }
-
