@@ -66,7 +66,7 @@ public:
 
 	int (LCD03::*psend) (uint8_t);
 	uint8_t I2C_Addr;
-
+	LCD_SIZE_t _size;
 	LCD03();
 	virtual ~LCD03();
 
@@ -163,6 +163,18 @@ public:
 	 * @param len length of the string
 	 */
 	void print_string(char *strn_add, int len);
+	/**
+	 * print string
+	 * @param string_addr
+	 * @param len length of the string
+	 */
+	void print_line(int line, char *strn_add, int len);
+	/**
+	 * print string
+	 * @param string_addr
+	 * @param len length of the string
+	 */
+	void clear_line(int line);
 };
 
 #endif /* COMPONENTS_LCD03_LCD03_H_ */

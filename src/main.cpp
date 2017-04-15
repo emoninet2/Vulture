@@ -29,9 +29,11 @@
 #include "stm32f4xx_hal.h"
 #include "arm_math.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 #include <stddef.h>
+
 
 /* Kernel includes. */
 #include "FreeRTOS.h" /* Must come first. */
@@ -47,8 +49,8 @@
 void SystemClock_Config(void);
 static void Error_Handler(void);
 
-//LCD03 lcd(LCD03::LCD03_SERIAL,LCD03::LCD03_20_4,LCD03::LCD03_I2C_ADDRESS_0xc8);
-//NRF24L01p *Radio;
+LCD03 lcd(LCD03::LCD03_SERIAL,LCD03::LCD03_20_4,LCD03::LCD03_I2C_ADDRESS_0xc8);
+NRF24L01p *nrfRadio;
 SX1272 myRadio;
 static GPIO_InitTypeDef  GPIO_InitStruct;
 
@@ -58,6 +60,136 @@ NRF24L01p::RxPipeConfig_t RxPipeConfig[6];
 
 #define TX_NODE 1
 #define RX_NODE 0
+void *command_handler(char **args,int arg_count){
+	if(!strcmp(args[0], "lcd") ) {
+		if(!strcmp(args[1], "bl") ) {
+			if(!strcmp(args[2], "0")) {
+				lcd.backlight(0);
+			}
+			else if(!strcmp(args[2], "1")) {
+				lcd.backlight(1);
+			}
+		}
+		else if(!strcmp(args[1], "cs") ) {
+			lcd.clear_screen();
+		}
+		else if(!strcmp(args[1], "cl") ) {
+			lcd.clear_line(atoi(args[2]));
+		}
+		else if(!strcmp(args[1], "pc") ) {
+			int row = atoi(args[2]);
+			int col = atoi(args[3]);
+			lcd.set_cursor_coordinate(row,col);
+			lcd.print_string(args[4], 1);
+		}
+		else if(!strcmp(args[1], "pl") ) {
+			int line = atoi(args[2]);
+			lcd.set_cursor_coordinate(line,1);
+			lcd.print_line(atoi(args[2]), args[3], strlen(args[3]));
+		}
+		else if(!strcmp(args[1], "cm") ) {
+			lcd.cursor_display_mode(LCD03::LCD03_CURSOR_DISP_t(atoi(args[2])));
+		}
+	}
+
+
+
+
+}
+
+void command_parse_execute(char *command){
+
+	int arg_index = 0;
+	char *pch;
+	char *remotch_args[10];
+	pch = strtok(command, "/,");
+	while(pch != NULL) {
+		remotch_args[arg_index] = pch;
+		arg_index++;
+		if(arg_index >=10) break;
+		pch = strtok (NULL, "/,");
+	}
+	command_handler(remotch_args,arg_index);
+}
+
+
+
+
+
+void NRF24L01p_RadioReset(){
+
+    RadioConfig.DataReadyInterruptEnabled = 0;
+    RadioConfig.DataSentInterruptFlagEnabled = 0;
+    RadioConfig.MaxRetryInterruptFlagEnabled = 0;
+    RadioConfig.Crc = NRF24L01p::CONFIG_CRC_16BIT;
+    RadioConfig.AutoReTransmissionCount = 15;
+    RadioConfig.AutoReTransmitDelayX250us = 15;
+    RadioConfig.frequencyOffset = 2;
+    RadioConfig.datarate = NRF24L01p::RF_SETUP_RF_DR_2MBPS;
+    RadioConfig.RfPower = NRF24L01p::RF_SETUP_RF_PWR_0DBM;
+    RadioConfig.PllLock = 0;
+    RadioConfig.ContWaveEnabled = 0;
+    RadioConfig.FeatureDynamicPayloadEnabled = 1;
+    RadioConfig.FeaturePayloadWithAckEnabled = 1;
+    RadioConfig.FeatureDynamicPayloadWithNoAckEnabled = 1;
+
+    RxPipeConfig[0].address = 0x454d4f4e90;
+    RxPipeConfig[1].address = 0x1234567891;
+    RxPipeConfig[2].address = 0x1234567892;
+    RxPipeConfig[3].address = 0x1234567893;
+    RxPipeConfig[4].address = 0x1234567894;
+    RxPipeConfig[5].address = 0x1234567895;
+
+    int i;
+
+    for(i=0;i<6;i++){
+        RxPipeConfig[i].PipeEnabled = 1;
+        RxPipeConfig[i].autoAckEnabled = 1;
+        RxPipeConfig[i].dynamicPayloadEnabled = 1;
+    }
+
+    nrfRadio->ResetConfigValues(&RadioConfig, RxPipeConfig);
+}
+
+
+void lcd03_thread(void * ptr)
+{
+
+	while (1)
+	{
+		vTaskDelay(200);
+	}
+}
+
+
+void nrf24l01p_thread(void * ptr)
+{
+	NRF24L01p myNrfRadio;
+	nrfRadio = &myNrfRadio;
+
+	NRF24L01p_RadioReset();
+
+
+	bool backlight = 0;
+	while (1)
+	{
+		if(nrfRadio->readable()){
+			uint8_t RxData[32];
+
+			NRF24L01p::Payload_t payload;
+			payload.data = RxData;
+
+			nrfRadio->clear_data_ready_flag();
+			nrfRadio->readPayload(&payload);
+			payload.data[payload.length] = '\0';
+			command_parse_execute((char*)payload.data);
+
+			nrfRadio->flush_rx();
+		}
+
+		vTaskDelay(200);
+	}
+}
 
 
 void sx1272_thread(void * ptr)
@@ -127,7 +259,7 @@ void sx1272_thread(void * ptr)
         myRadio.LoRaOpMode(LoRa_OpMode_TX);
 
         while(myRadio.LoRaIrqFlags(LoRa_IrqFlags_TxDone) == 0);
-        printf("sent\r\n");
+        printf("sent : %s\r\n", myname);
 
         myRadio.LoRaOpMode(LoRa_OpMode_STDBY);
         myRadio.Write( REG_LORA_IRQFLAGS, 0xFF);
@@ -182,8 +314,10 @@ int main(void)
   osKernelStart ();                     // start thread execution
 #endif
 
-  //xTaskCreate(nrf24l01p_thread,( const char * ) "t_gpio",configMINIMAL_STACK_SIZE*2,NULL,tskIDLE_PRIORITY+1 ,NULL );
-  xTaskCreate(sx1272_thread,( const char * ) "t_gpio",configMINIMAL_STACK_SIZE*2,NULL,tskIDLE_PRIORITY+1 ,NULL );
+   xTaskCreate(sx1272_thread,( const char * ) "sx1272",configMINIMAL_STACK_SIZE*2,NULL,tskIDLE_PRIORITY+1 ,NULL );
+  //xTaskCreate(nrf24l01p_thread,( const char * ) "nrf24l01p",configMINIMAL_STACK_SIZE*2,NULL,tskIDLE_PRIORITY+1 ,NULL );
+  xTaskCreate(lcd03_thread,( const char * ) "nrf24l01p",configMINIMAL_STACK_SIZE*2,NULL,tskIDLE_PRIORITY+1 ,NULL );
+
 
   vTaskStartScheduler();
   /* Infinite loop */

@@ -33,7 +33,7 @@
 #define RTE_RTOS_FreeRTOS_CORE          /* RTOS FreeRTOS Core */
 #define RTE_RTOS_FreeRTOS_COROUTINE     /* RTOS FreeRTOS Co-routines */
 #define RTE_RTOS_FreeRTOS_EVENTGROUPS   /* RTOS FreeRTOS Event Groups */
-#define RTE_RTOS_FreeRTOS_HEAP_4        /* RTOS FreeRTOS Heap 4 */
+#define RTE_RTOS_FreeRTOS_HEAP_3        /* RTOS FreeRTOS Heap 3 */
 #define RTE_RTOS_FreeRTOS_TIMERS        /* RTOS FreeRTOS Timers */
 
 #endif /* RTE_COMPONENTS_H */

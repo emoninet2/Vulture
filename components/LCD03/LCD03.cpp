@@ -19,11 +19,15 @@ LCD03::~LCD03() {
 
 LCD03::LCD03(COMM_MODE_t mode = LCD03_SERIAL,LCD_SIZE_t type = LCD03_20_4,LCD03_I2C_ADDRESS_t addr = LCD03_I2C_ADDRESS_0xc8){
 	if(mode == LCD03_I2C){
+		portI2CInit();
 		psend = &LCD03::portI2CTransmit;
 	}
 	else if (mode == LCD03_SERIAL){
+		portSerialInit();
 		psend = &LCD03::portSerialTransmit;
 	}
+
+	_size = type;
 }
 
 void LCD03::send_command(LCD03_COMMAND_t cmd){
@@ -37,9 +41,12 @@ void LCD03::cursor_home(){
 }
 void LCD03::set_cursor_pos(uint8_t pos){
 	send_command(LCD03_CMD_SET_CURSOR_POS);
+	send_data(pos);
 }
 void LCD03::set_cursor_coordinate(uint8_t line, uint8_t col){
 	send_command(LCD03_CMD_SET_CURSOR_COORDINATE);
+	send_data(line);
+	send_data(col);
 }
 void LCD03::cursor_display_mode(LCD03_CURSOR_DISP_t mode){
 	switch(mode){
@@ -104,5 +111,44 @@ uint8_t LCD03::get_software_version(){
 void LCD03::print_string(char *strn_add, int len){
 	for(int i=0;i<len;i++){
 		send_data(*(strn_add+i));
+	}
+}
+
+void LCD03::print_line(int line, char *strn_add, int len){
+	set_cursor_coordinate(line,1);
+	int _len = len;
+	int _blank = 0;
+	if(_size == LCD03_20_4){
+		if(len >20) _len = 20;
+		else _blank = 20 - len;
+	}
+	else if(_size == LCD03_16_2){
+		if(len >16) _len = 16;
+		else _blank = 16 - len;
+	}
+	print_string(strn_add , _len);
+
+	int i;
+	char space = ' ';
+	for(i = 0;i< _blank;i++){
+		print_string(&space, 1);
+	}
+}
+
+void LCD03::clear_line(int line){
+	set_cursor_coordinate(line,1);
+	int _len;
+
+	if(_size == LCD03_20_4){
+		_len = 20;
+	}
+	else if(_size == LCD03_16_2){
+		_len = 16;
+	}
+
+	int i;
+	char space = ' ';
+	for(i = 0;i< _len;i++){
+		print_string(&space, 1);
 	}
 }
